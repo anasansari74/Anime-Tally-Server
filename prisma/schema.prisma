@@ -14,4 +14,32 @@ datasource db {
 model User {
  id       Int        @id @default(autoincrement())
  username    String     @unique
+
+ showStatuses ShowStatuses[]
+
+ favShows FavShows[]
+}
+
+model ShowStatuses {
+  id Int @id @default(autoincrement())
+  showId String
+  selectedStatus SelectedStatus
+  
+  userId Int
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+enum SelectedStatus {
+  WATCHING
+  PLANTOWATCH
+  DROPPED
+  COMPLETED
+}
+
+model FavShows {
+  id Int @id @default(autoincrement())
+  showId String
+  
+  userId Int
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
